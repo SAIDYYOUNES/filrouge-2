@@ -6,6 +6,15 @@ import { generateJWT } from "../utils";
 
 const { SECRET_KEY } = process.env;
 export class UserService {
+	static async register(user) {
+		try {
+			return await User.create(user);
+		} catch (err) {
+			if (err instanceof Error.ValidationError)
+				throw new BadRequest(JSON.stringify(err));
+			throw err;
+		}
+	}
 	static async login(user) {
 		try {
 			const foundUser = await User.findOne({ email: user.email });
