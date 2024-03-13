@@ -5,5 +5,8 @@ const postsRouter = Router();
 postsRouter.get("/", PostController.index);
 postsRouter.post("/", authentificate, PostController.create);
 postsRouter.get("/:post", PostController.show);
+postsRouter.put("/:post", authentificate, PostController.update);
 postsRouter.delete("/:post", authentificate, PostController.delete);
+postsRouter.patch("/:post", authentificate, PostController.like);
+postsRouter.get("/search", PostController.search);
 export default postsRouter;

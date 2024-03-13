@@ -23,7 +23,27 @@ export class PostService {
 			throw err;
 		}
 	}
-
+	static async search(search) {
+		try {
+			const posts = await Post.find({
+				title: { $search: search.search },
+				tags: { $all: search.tags },
+			});
+			return posts;
+		} catch (err) { }
+	}
+	static async update(id, updates) {
+		try {
+			const post = await Post.findByIdAndUpdate(id, updates, { new: true });
+			if (!post) throw new NotFound("Post not found");
+			return post;
+		} catch (err) {
+			if (err instanceof Error.CastError) {
+				throw new BadRequest("Invalid id");
+			}
+			throw err;
+		}
+	}
 	static async show(id) {
 		try {
 			const post = await Post.findById(id).populate("user").populate("comments");	
@@ -41,5 +61,27 @@ export class PostService {
 		const post = await Post.findByIdAndDelete(id);
 		if (!post)
 			throw new NotFound(JSON.stringify("cannot delete unfound Post "));
+	}
+	static async like(id, like) {
+		const post = await Post.findOne({ _id: id });
+		if (!post) throw new NotFound(JSON.stringify("Post not found"));
+
+		if (post.likes.includes(like)) {
+			const post = Post.findOneAndUpdate(
+				{ _id: id },
+				{ $pull: { likes: like } },
+				{ new: true },
+			);
+
+			return post;
+		} else {
+			const post = Post.findOneAndUpdate(
+				{ _id: id },
+				{ $addToSet: { likes: like } },
+				{ new: true },
+			);
+
+			return post;
+		}
 	}
 }

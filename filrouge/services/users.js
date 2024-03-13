@@ -3,8 +3,6 @@ import { Error } from "mongoose";
 import { BadRequest } from "http-errors";
 import { verify } from "argon2";
 import { generateJWT } from "../utils";
-
-const { SECRET_KEY } = process.env;
 export class UserService {
 	static async register(user) {
 		try {
