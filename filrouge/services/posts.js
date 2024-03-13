@@ -23,4 +23,23 @@ export class PostService {
 			throw err;
 		}
 	}
+
+	static async show(id) {
+		try {
+			const post = await Post.findById(id).populate("user").populate("comments");	
+
+			if (!post) throw new NotFound("Post not found");
+			return  post;
+		} catch (err) {
+			if (err instanceof Error.CastError) {
+				throw new BadRequest("Invalid id");
+			}
+			throw err;
+		}
+	}
+	static async delete(id) {
+		const post = await Post.findByIdAndDelete(id);
+		if (!post)
+			throw new NotFound(JSON.stringify("cannot delete unfound Post "));
+	}
 }
