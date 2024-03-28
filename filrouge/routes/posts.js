@@ -8,5 +8,6 @@ postsRouter.get("/:post", PostController.show);
 postsRouter.put("/:post", authentificate, PostController.update);
 postsRouter.delete("/:post", authentificate, PostController.delete);
 postsRouter.patch("/:post", authentificate, PostController.like);
-postsRouter.get("/search", PostController.search);
+postsRouter.post("/search", PostController.search);
+postsRouter.post("/tags", PostController.tags);
 export default postsRouter;
