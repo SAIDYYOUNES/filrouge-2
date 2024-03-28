@@ -28,4 +28,9 @@ export class PostController {
 	static async search(req , res ) {
 		return res.status(200).json(PostService.search(req.body));
 	}
+	static async tags(req , res ) {
+		return res
+			.status(200)
+			.json(await PostService.popularTags());
+	}
 }
