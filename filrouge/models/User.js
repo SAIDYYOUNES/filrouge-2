@@ -8,6 +8,7 @@ export const UserSchema = new Schema(
 		email: { type: String, required: true },
 		password: { type: String, required: true },
 		posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+		savedPosts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
 		role: { type: String, default: "user" },
 		banned: { type: Boolean, default: false },
 	},
