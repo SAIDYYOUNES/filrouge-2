@@ -20,7 +20,7 @@ export default function Login() {
         handleSubmit: handleLogin,
         control: loginControl,
     } = useForm({
-        mode: 'onTouched',
+        mode: 'onTouched'
     })
     const onLogin = (data) => {
         dispatch(login(data))
