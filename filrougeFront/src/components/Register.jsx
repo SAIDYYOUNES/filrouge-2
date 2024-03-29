@@ -154,8 +154,7 @@ export default function Register() {
                                         <IconButton
                                             aria-label="toggle password visibility"
                                             onClick={handleClickShowPassword}
-                                            edge="end"
-                                        >
+                                            edge="end">
                                             {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
                                     </InputAdornment>
