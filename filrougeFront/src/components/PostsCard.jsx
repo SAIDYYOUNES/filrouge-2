@@ -39,7 +39,7 @@ const PostsCard = ({ post }) => {
         {postImg && (
           <div className="flex-[1]">
             <img
-              src={postImg}
+              src={'http://localhost:5000/uploads/'+postImg}
               alt="postImg"
               className="w-[10rem] h-[8rem] object-cover"
             />
@@ -53,9 +53,7 @@ const PostsCard = ({ post }) => {
         </p>
         <div className="flex items-center gap-3">
           <SavedPost post={post} />
-          {logged && user._id == userId && (
-              <Actions postId={postId} />
-          )}
+          
         </div>
       </div>
     </section>
