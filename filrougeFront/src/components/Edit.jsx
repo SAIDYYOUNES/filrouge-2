@@ -18,17 +18,13 @@ export default function Edit() {
     const dispatch = useDispatch()
     const [file, setFile] = useState(null)
     const { logged, user } = useSelector((state) => state.users)
-    const { selectedPost } = useSelector(state => state.posts)
-    useEffect(() => {
-        dispatch(selectPost(postId))
-    }, [])
+    const { selectedPost ,loading } = useSelector(state => state.posts)
     
 
 
     const {
         handleSubmit,
-        control,
-        reset
+        control
 
         
         
@@ -65,7 +61,7 @@ export default function Edit() {
     return (
         <>
         {
-            !selectedPost ? <Loading /> : 
+            loading ? <Loading /> : 
         
             <div className="container mx-auto flex justify-center">
 
