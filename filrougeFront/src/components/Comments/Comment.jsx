@@ -9,7 +9,7 @@ import { deleteComment } from "../../Redux/Posts/actions";
 
 const Comment = ({ item: comment, postId }) => {
   const dispatch = useDispatch();
-  const{user:currentUser , logged}=useSelector(state=>state.users)
+  const { user: currentUser, logged } = useSelector(state => state.users)
   const [drop, setDrop] = useState(false);
   const [more, setMore] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -17,12 +17,12 @@ const Comment = ({ item: comment, postId }) => {
 
   const [editComment, setEditComment] = useState("");
 
-  const {content, createdAt ,likes,user } = comment;
+  const { content, createdAt, likes, user } = comment;
   const removeComment = () => {
     Swal.fire({
       title: "Do you want to delete this comment?",
       showDenyButton: true,
-     
+
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
@@ -30,27 +30,27 @@ const Comment = ({ item: comment, postId }) => {
         Swal.fire("Deleted!", "", "success");
       }
     });
-   
+
   }
- return (
+  return (
     <section className="border-b">
-      {!isEdit ? (
-        <>
-          <div className="flex items-center gap-5">
-            <img
-              className="w-[2rem] h-[2rem] object-cover rounded-full"
-              src={"https://impactplumbing.ca/wp-content/uploads/2015/03/no-profile-img.gif"}
-              alt="user-img"
-            />
-            <div className="flex-1 flex justify-between">
-              <div>
-                <h2 className="text-sm capitalize">{user.name}</h2>
-                <p className="text-sm text-gray-400">
-                  {moment(createdAt).fromNow()}
-                </p>
-              </div>
-              <div className="relative">
-                {
+
+      <>
+        <div className="flex items-center gap-5">
+          <img
+            className="w-[2rem] h-[2rem] object-cover rounded-full"
+            src={"https://impactplumbing.ca/wp-content/uploads/2015/03/no-profile-img.gif"}
+            alt="user-img"
+          />
+          <div className="flex-1 flex justify-between">
+            <div>
+              <h2 className="text-sm capitalize">{user.name}</h2>
+              <p className="text-sm text-gray-400">
+                {moment(createdAt).fromNow()}
+              </p>
+            </div>
+            <div className="relative">
+              {
                 logged && currentUser?._id === user._id
                 && (
                   <>
@@ -67,37 +67,19 @@ const Comment = ({ item: comment, postId }) => {
                     </DropDown>
                   </>
                 )}
-              </div>
             </div>
           </div>
-          <p className="py-4 text-sm">
-            {more ? content : content.substring(0, 100)}
-            {content.length > 100 && (
-              <button onClick={() => setMore(!more)}>
-                {more ? "...less" : "...more"}
-              </button>
-            )}
-          </p>
-        </>
-      ) : (
-        <div className="bg-white shadows p-4">
-          <textarea
-            value={editComment}
-            onChange={(e) => setEditComment(e.target.value)}
-            placeholder="Write your update text..."
-            className="w-full resize-none outline-none text-sm"></textarea>
-          <div className="flex items-center justify-end gap-2">
-            <button onClick={() => setIsEdit(false)} className="w-fit text-sm">
-              Cancel
-            </button>
-            <button
-              onClick={handleEdit}
-              className="btn !text-white !bg-green-700 !rounded-full !text-xs">
-              {loading ? "Updating..." : "Update"}
-            </button>
-          </div>
         </div>
-      )}
+        <p className="py-4 text-sm">
+          {more ? content : content.substring(0, 100)}
+          {content.length > 100 && (
+            <button onClick={() => setMore(!more)}>
+              {more ? "...less" : "...more"}
+            </button>
+          )}
+        </p>
+      </>
+
     </section>
   );
 };
