@@ -3,9 +3,15 @@ import { CiSearch } from "react-icons/ci";
 import Modal from "../utils/Modal";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getPosts } from "../Redux/Posts/actions";
 
 const Search = ({ modal, setModal }) => {
   const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPosts());
+  }, []);
   const { posts} = useSelector((state) => state.posts);
 
   const searchData =
