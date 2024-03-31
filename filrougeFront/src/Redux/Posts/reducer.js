@@ -18,10 +18,10 @@ export const postsReducer = (state = initialeState, action) => {
         case postsTypes.UPDATE_POST:
             return {
                 ...state,
-                posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)),
+                selectedPost : null,
             };
         case postsTypes.GET_POST:
-            return { ...state, post: action.payload, loading: false };
+            return { ...state, post: action.payload, loading: false , selectedPost: action.payload};
         case postsTypes.GET_TAGS:
             return { ...state, tags: action.payload };
         case postsTypes.LIKE_POST:
@@ -39,7 +39,7 @@ export const postsReducer = (state = initialeState, action) => {
                 post: { ...state.post, comments: state.post.comments.filter((comment) => comment._id !== action.payload) }
             };
         case postsTypes.SELECT_POST:
-            return { ...state, selectedPost: action.payload };
+            return { ...state, selectedPost: action.payload , loading: false};
         default:
             return state;
     }

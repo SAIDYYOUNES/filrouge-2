@@ -43,9 +43,10 @@ export const deletePost = (id) => {
 export const updatePost = (id, post) => {
     return async (dispatch) => {
         try {
-            const { data } = await axios.put(`/posts/${id}`, post);
+            const{_id,...rest}=post
+            const { data } = await axios.put(`/posts/${id}`, rest);
             dispatch({ type: postsTypes.UPDATE_POST, payload: data });
-            window.location.href='post/'+data._id
+            window.location.href='/post/'+data._id
 
         }
         catch (err) {
@@ -70,6 +71,7 @@ export const selectPost = (id) => {
             dispatch({ type: postsTypes.LOADING_TRUE });
             const { data } = await axios.get(`/posts/${id}`);
             dispatch({ type: postsTypes.SELECT_POST, payload: data });
+            
         } catch (err) {
             console.log(err)
         }
