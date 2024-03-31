@@ -6,14 +6,13 @@ import { IconButton } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import { register } from "../Redux/Users/actions";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
-// import { register } from "../../redux/actions";
-// import { useDispatch } from "react-redux";
-// import GoogleIn from "./Google-in";
-
-export default function Register() {
+export default function Register({ Switch }) {
     const [showPassword, setShowPassword] = useState(false);
-    const dispatch = 'b,nb'
+    const dispatch = useDispatch()
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const {
@@ -22,10 +21,15 @@ export default function Register() {
         watch
     } = useForm({ mode: 'onTouched' })
 
-    const onRegister = (data) => { 
-        console.log(data)
-        // dispatch(register(data))
-     }
+    const onRegister = (data) => {
+        try {
+            dispatch(register(data))
+            Switch(false)
+            toast.success("User has been registered")
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
     const password = watch('password', '');
 
 
@@ -167,7 +171,7 @@ export default function Register() {
                 <button type='submit' className="bg-[#3b5998] mt-3 hover:bg-[#3b5998] text-white text-sm font-semibold py-2 px-4 border border-[#3b5998] rounded">
                     SIGN UP
                 </button>
-               
+
             </form>
         </>
     )
