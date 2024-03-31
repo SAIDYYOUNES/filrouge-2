@@ -28,7 +28,7 @@ const Actions = ({ postId }) => {
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deletePost(postId))
+        dispatch(deletePost(postId) )
         Swal.fire("Deleted!", "", "success");
       }
     });
