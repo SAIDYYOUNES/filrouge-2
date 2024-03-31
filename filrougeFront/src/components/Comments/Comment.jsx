@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Blog } from "../../Context/Context";
+import Swal from "sweetalert2";
 import moment from "moment";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import DropDown from "../../utils/DropDown";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteComment } from "../../Redux/Posts/actions";
 
 const Comment = ({ item: comment, postId }) => {
+  const dispatch = useDispatch();
   const{user:currentUser , logged}=useSelector(state=>state.users)
   const [drop, setDrop] = useState(false);
   const [more, setMore] = useState(false);
@@ -17,7 +19,18 @@ const Comment = ({ item: comment, postId }) => {
 
   const {content, createdAt ,likes,user } = comment;
   const removeComment = () => {
-    console.log("remove");
+    Swal.fire({
+      title: "Do you want to delete this comment?",
+      showDenyButton: true,
+     
+      confirmButtonText: "Delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteComment(comment._id));
+        Swal.fire("Deleted!", "", "success");
+      }
+    });
+   
   }
  return (
     <section className="border-b">
