@@ -15,12 +15,29 @@ const UserModal = ({ setModal }) => {
   const dispatch = useDispatch();
 
   const { user } = useSelector(state => state.users);
-
+  const userModal = [
+    {
+      title: "Profile",
+      icon: <LiaUserSolid />,
+      path: `/profile/${user?._id}`,
+    },
+    {
+      title: "Saves",
+      icon: <MdOutlineLocalLibrary />,
+      path: "/saved",
+    },
+    {
+      title: "Stories",
+      icon: <BiSpreadsheet />,
+      path: "/stories",
+    }
+   
+  ];
 
   const navigate = useNavigate(null);
   const logoff = async () => {
     try {
-      dispatch(logout());
+      dispatch(logout()); 
       navigate("/demo");
       toast.success("User has be logged out");
     } catch (error) {
@@ -39,7 +56,19 @@ const UserModal = ({ setModal }) => {
         </span>
         <span className="text-sm mt-2">Write</span>
       </Link>
-      
+      <div className="flex flex-col gap-4 border-b border-gray-300 pb-5">
+        
+        {userModal.map((link, i) => (
+          <Link
+            onClick={() => setModal(false)}
+            className="flex items-center gap-2 text-gray-500 hover:text-black/70"
+            key={i}
+            to={link.path}>
+            <span className="text-2xl">{link.icon}</span>
+            <h2 className="text-md">{link.title}</h2>
+          </Link>
+        ))}
+      </div>
       <button
         onClick={logoff}
         className="flex flex-col pt-5 cursor-pointer hover:text-black/70">
