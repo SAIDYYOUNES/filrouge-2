@@ -4,6 +4,7 @@ const initialeState = {
     loading: true,
     post: {},
     tags: [],
+    selectedPost: null,
 }
 
 export const postsReducer = (state = initialeState, action) => {
@@ -25,13 +26,20 @@ export const postsReducer = (state = initialeState, action) => {
             return { ...state, tags: action.payload };
         case postsTypes.LIKE_POST:
             return {
-                 ...state, post: {...state.post, likes: action.payload.likes}
+                ...state, post: { ...state.post, likes: action.payload.likes }
             };
         case postsTypes.COMMENT_POST:
             return {
                 ...state,
-                 post: {...state.post, comments: [...state.post.comments, action.payload] }
+                post: { ...state.post, comments: [...state.post.comments, action.payload] }
             };
+        case postsTypes.DELETE_COMMENT:
+            return {
+                ...state,
+                post: { ...state.post, comments: state.post.comments.filter((comment) => comment._id !== action.payload) }
+            };
+        case postsTypes.SELECT_POST:
+            return { ...state, selectedPost: action.payload };
         default:
             return state;
     }
