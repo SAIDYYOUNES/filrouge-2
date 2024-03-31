@@ -14,13 +14,15 @@ import { getPost } from "../Redux/Posts/actions";
 
 const SinglePost = () => {
     const { postId } = useParams();
+    const {logged , user :currentUser} = useSelector(state => state.users)
+
     const { post, loading } = useSelector(state => state.posts);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPost(postId));
     }, []);
 
-    const { title, content, createdAt, image: postImg, _id, user ,likes} = post;
+    const { title, content, createdAt, image: postImg, _id, user ,likes ,links} = post;
 
     const navigate = useNavigate();
 
@@ -42,9 +44,7 @@ const SinglePost = () => {
                             <div>
                                 <div className="capitalize">
                                     <span>{user?.name} .</span>
-                                    {/* {currentUser && currentUser?.uid !== userId && (
-                                        <FollowBtn userId={userId} />
-                                    )} */}
+                                   
                                 </div>
                                 <p className="text-sm text-gray-500">
                                     {readTime({ __html: content })} min read .
@@ -60,16 +60,16 @@ const SinglePost = () => {
                             <div className="flex items-center pt-2 gap-5">
                                 {post && <SavedPost post={post} />}
                                 <SharePost />
-                                {true && (
+                                {logged && currentUser._id== user?._id &&
                                     <Actions postId={postId} title={title} desc={content} />
-                                )}
+                                }
                             </div>
                         </div>
                         <div className="mt-[3rem]">
                             {postImg && (
                                 <img
                                     className="w-full h-[400px] object-cover"
-                                    src={postImg}
+                                    src={'http://localhost:5000/uploads/'+postImg}
                                     alt="post-img"
                                 />
                             )}
@@ -77,9 +77,27 @@ const SinglePost = () => {
                                 className="mt-6"
                                 dangerouslySetInnerHTML={{ __html: content }}
                             />
+                            <div className="mt-12">
+                                <div className="border-b border-gray-400 pb-7">
+                                    <h2 className="font-semibold">Links</h2>
+                                    <div className="my-2 flex flex-col items-center gap-3 ">
+                                        {links?.map((item, i) => (
+                                            <button
+                                                onClick={() => window.open(item, '_blank')}
+                                                key={i}
+                                                className="bg-gray-200 py-2 px-3 text-sm rounded-full">
+                                                {item}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    
+                                </div>
+                                <div className="flex items-center flex-wrap gap-3 leading-3 pt-8">
+                                
+                                </div>
+                            </div>
                         </div>
                     </section>
-                    {/* {post && <Recommended post={post} />} */}
                     <Comments postId={postId} />
                 </>
             )}
