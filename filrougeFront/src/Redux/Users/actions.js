@@ -9,21 +9,22 @@ export const usersTypes = {
 export const login = (user) => {
     return async (dispatch) => {
         const { data } = await axios.post("/Auth/login", user);
-        if(data.err){
+        if (data.err) {
             toast.error(data.message)
         }
-        else{
+        else {
             toast.success("Welcome back!")
             dispatch({ type: usersTypes.LOGIN, payload: data.data });
             localStorage.setItem("user", JSON.stringify(data.data));
         }
-        
+
     };
 };
 export const register = (user) => {
+    const {confirmPassword,firstName ,lastName,...rest} = user
     return async (dispatch) => {
-        const { data } = await axios.post("/Auth/register", user);
-        dispatch({ type: usersTypes.REGISTER, payload: data });
+        const { data } = await axios.post("/Auth/register", { ...rest, name: `${firstName} ${lastName}` });
+
     };
 };
 export const logout = () => {
@@ -35,7 +36,6 @@ export const logout = () => {
 export const toggleSave = (id) => {
     return async (dispatch) => {
         const { data } = await axios.post(`/Auth/savePost/${id}`);
-        // return console.log(data)
         dispatch({ type: usersTypes.TOGGLE_SAVE, payload: data });
     };
 }
