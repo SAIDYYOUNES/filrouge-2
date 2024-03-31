@@ -8,7 +8,6 @@ import Login from "./Login";
 
 const Auth = ({ modal, setModal }) => {
   const [createUser, setCreateUser] = useState(false);
-  const [signReq, setSignReq] = useState("");
   const navigate = useNavigate();
 
 
@@ -32,7 +31,7 @@ const Auth = ({ modal, setModal }) => {
             </h2>
             <div className="flex flex-col gap-2 w-fit mx-auto">
               {createUser ?
-                <Register /> : <Login />
+                <Register Switch={setCreateUser} /> : <Login />
               }
             </div>
             <p>
