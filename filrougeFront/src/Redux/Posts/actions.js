@@ -13,7 +13,8 @@ export const postsTypes = {
     LIKE_POST: 'LIKE_POST',
     COMMENT_POST: 'COMMENT_POST',
     SELECT_POST: 'SELECT_POST',
-    DELETE_COMMENT: 'DELETE_COMMENT'
+    DELETE_COMMENT: 'DELETE_COMMENT',
+    GET_REPORTS: 'GET_REPORTS'
 
 }
 export const getPosts = () => {
@@ -122,6 +123,17 @@ export const deleteComment = (id) => {
            const{data}= await axios.delete(`/comments/${id}`);
             dispatch({ type: postsTypes.DELETE_COMMENT, payload: id });
             toast.success("Comment deleted")
+        } catch (err) {
+            console.log(err)
+        }
+    };
+}
+export const reportPost = (id,report) => {
+    return async (dispatch) => {
+        try {
+            console.log(id)
+            const {data}=await axios.post(`/reports/${id}`,{reason:report});
+            toast.success("Post reported thanks for your feedback")
         } catch (err) {
             console.log(err)
         }

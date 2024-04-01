@@ -4,7 +4,7 @@ import DropDown from "../../utils/DropDown";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { deletePost, selectPost } from "../../Redux/Posts/actions";
+import { deletePost, selectPost ,reportPost } from "../../Redux/Posts/actions";
 
 const Actions = ({ postId }) => {
   const dispatch = useDispatch();
@@ -30,9 +30,25 @@ const Actions = ({ postId }) => {
       if (result.isConfirmed) {
         dispatch(deletePost(postId) )
         Swal.fire("Deleted!", "", "success");
+        navigate("/");
       }
     });
   };
+  const handleReport = () => {
+
+    Swal.fire({
+      title: "Report!",
+      text: "describe your report reason:",
+      input: 'textarea',
+      showCancelButton: true,     
+      confirmButtonText: "Report",
+  }).then((result) => {
+      if (result.value) {
+          dispatch(reportPost(postId,result.value));
+          Swal.fire("Reported!", "", "success");
+      }
+  });
+  }
   return (
     <div className="relative">
       <button onClick={handleClick}>
@@ -41,6 +57,7 @@ const Actions = ({ postId }) => {
       <DropDown showDrop={showDrop} setShowDrop={setShowDrop} size="w-[7rem]">
         <Button click={handleEdit} title="Edit Story" />
         <Button click={handleRemove} title="Delete Story" />
+        <Button click={handleReport} title="Report Story" />
       </DropDown>
     </div>
   );
