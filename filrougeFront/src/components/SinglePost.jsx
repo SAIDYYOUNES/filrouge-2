@@ -14,21 +14,28 @@ import { getPost } from "../Redux/Posts/actions";
 
 const SinglePost = () => {
     const { postId } = useParams();
-    const {logged , user :currentUser} = useSelector(state => state.users)
-
+    const { logged, user: currentUser } = useSelector(state => state.users)
     const { post, loading } = useSelector(state => state.posts);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPost(postId));
     }, []);
+    const copyId = async () => {
+        try {
+    await navigator.clipboard.writeText(user._id);
+            toast.success("user Id has been copied");
 
-    const { title, content, createdAt, image: postImg, _id, user ,likes ,links} = post;
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+    const { title, content, createdAt, image: postImg, _id, user, likes, links } = post;
 
     const navigate = useNavigate();
 
     return (
         <>
-            {loading && post? (
+            {loading && post ? (
                 <Loading />
             ) : (
                 <>
@@ -44,32 +51,39 @@ const SinglePost = () => {
                             <div>
                                 <div className="capitalize">
                                     <span>{user?.name} .</span>
-                                   
+
                                 </div>
                                 <p className="text-sm text-gray-500">
                                     {readTime({ __html: content })} min read .
                                     <span className="ml-1">{moment(createdAt).fromNow()}</span>
                                 </p>
                             </div>
+                            {logged && currentUser?.role == 'admin' &&
+                                    <button onClick={copyId} 
+                                    className="inline-flex items-center px-6 py-3 text-gray-500 bg-gray-100 rounded-md hover:bg-gray-200 hover:text-gray-600"
+                                    >Copy Id</button>
+                                    
+                                }
                         </div>
                         <div className="flex items-center justify-between border-b border-t border-gray-200 py-[0.5rem]">
                             <div className="flex items-center gap-5">
-                                <Like  />
+                                <Like />
                                 <Comment total={post.comments?.length} />
                             </div>
                             <div className="flex items-center pt-2 gap-5">
                                 {post && <SavedPost post={post} />}
                                 <SharePost />
-                                {logged && currentUser._id== user?._id &&
+                                {logged && currentUser._id == user?._id &&
                                     <Actions postId={postId} title={title} desc={content} />
                                 }
+                               
                             </div>
                         </div>
                         <div className="mt-[3rem]">
                             {postImg && (
                                 <img
                                     className="w-full h-[400px] object-cover"
-                                    src={'http://localhost:5000/uploads/'+postImg}
+                                    src={'http://localhost:5000/uploads/' + postImg}
                                     alt="post-img"
                                 />
                             )}
@@ -90,10 +104,10 @@ const SinglePost = () => {
                                             </button>
                                         ))}
                                     </div>
-                                    
+
                                 </div>
                                 <div className="flex items-center flex-wrap gap-3 leading-3 pt-8">
-                                
+
                                 </div>
                             </div>
                         </div>
