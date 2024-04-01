@@ -59,6 +59,7 @@ export default function Write() {
                     <>
 
                         <Typography
+                        data-cy="pageTitle"
                             variant="h4" textTransform="capitalize" align="center"
                             fontWeight={'bold'} marginBottom={'1rem'} >Create Post </Typography>
                         <form onSubmit={handleSubmit(onSubmit)}>
