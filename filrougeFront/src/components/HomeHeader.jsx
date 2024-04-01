@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { BsMedium } from "react-icons/bs";
 import { LiaEditSolid } from "react-icons/lia";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import Search from "./Search";
 import Modal from "../utils/Modal";
 import UserModal from "./UserModal";
-import { Blog } from "../Context/Context";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { MdOutlineDashboard } from "react-icons/md";
 
 
 const HomeHeader = () => {
   const [modal, setModal] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
 
-  const { user } = useSelector(state => state.users);
+  const { user ,logged } = useSelector(state => state.users);
 
   return (
     <header className="border-b border-gray-200">
@@ -24,11 +24,13 @@ const HomeHeader = () => {
       <div className="size h-[60px] flex items-center justify-between">
         {/* left side  */}
         <div className="flex items-center gap-3">
-          <Link to={"/"}>
-            <span className="text-5xl">
-              <BsMedium />
-            </span>
-          </Link>
+        <Link to={"/"}>
+          <img
+            className="h-[4rem]"
+            src="./back.webp"
+            alt="logo"
+          />
+        </Link>
         </div>
           <Search modal={searchModal} setModal={setSearchModal} />
         {/* right side  */}
@@ -47,6 +49,15 @@ const HomeHeader = () => {
             </span>
             <span className="text-sm mt-2">Write</span>
           </Link>
+          {logged && user.role=='admin'
+               &&<Link
+            to="/dashboard"
+            className="hidden md:flex items-center gap-1 text-gray-500">
+            <span className="text-3xl">
+            <MdOutlineDashboard />
+            </span>
+            <span className="text-sm mt-2">Dashboard</span>
+          </Link>}
           <div className="flex items-center relative">
             <img
               onClick={() => setModal(true)}
