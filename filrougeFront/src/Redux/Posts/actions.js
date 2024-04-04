@@ -30,9 +30,13 @@ export const getPosts = () => {
 }
 export const createPost = (post) => {
     return async (dispatch) => {
+        try {
         const { data } = await axios.post('/posts', post);
         dispatch({ type: postsTypes.CREATE_POST, payload: data });
         window.location.href='post/'+data._id
+        }catch(err){
+            console.log(err)
+        }
     };
 }
 export const deletePost = (id) => {

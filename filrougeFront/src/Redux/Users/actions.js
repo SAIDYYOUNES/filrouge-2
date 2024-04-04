@@ -14,8 +14,9 @@ export const login = (user) => {
         }
         else {
             toast.success("Welcome back!")
-            dispatch({ type: usersTypes.LOGIN, payload: data.data });
-            localStorage.setItem("user", JSON.stringify(data.data));
+            const {token , ...user} = data.data
+            dispatch({ type: usersTypes.LOGIN, payload: user });
+            localStorage.setItem("user", JSON.stringify(data.data.token));
         }
 
     };

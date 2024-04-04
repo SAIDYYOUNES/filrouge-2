@@ -1,6 +1,7 @@
 import { usersTypes } from './actions';
+import { decodeJwt } from 'jose';
 const initialeState = { 
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,   
+    user: localStorage.getItem('user') ? decodeJwt(localStorage.getItem('user')) : null,
     logged: localStorage.getItem('user'),
 }
 export const usersReducer = (state = initialeState, action) => {
